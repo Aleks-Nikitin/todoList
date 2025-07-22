@@ -46,7 +46,7 @@ form{
 .dialogBtns>button:hover{
     font-weight: bold;
 }
-dialog {
+#dialogProj{
  margin: 0;
  padding: 5px;
  opacity: 1;
@@ -63,6 +63,9 @@ h1{
     color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 78px;
+    text-align: center;
+}
+h2{
     text-align: center;
 }
 .content{

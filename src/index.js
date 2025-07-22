@@ -1,7 +1,6 @@
 
 import "./reset.css";
 import "./styles.css";
-import {today} from "./today.js";
 const projectLibrary = [];
 class Project{
 
@@ -18,6 +17,7 @@ class Project{
 class todo{
 
     constructor(title,description,dueDate,importance){
+        this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -26,16 +26,23 @@ class todo{
 
     
 }
+    function checkCurrentProject(projLib){
+        for(const proj of projLib){
+            if(proj.current) return proj
+        }
+    }
+    
 function UIcontroller(){
     function addNewProject(){
 
 
     }
     function clear(){
-        accessDom.content.innerHTML ="";
+        accessDom.content.innerHTML =``;
     }
     function clearInput(){
         accessDom.projectInput.value=" ";
+        
     }
     function showProject(projectItem){
         for(const todoUnit of projectItem.storage){
@@ -59,8 +66,16 @@ function UIcontroller(){
 
     function createReferences(){
         return {
+        todoInputDueDate: document.querySelector("#todoInputDueDate"),
+        todoInputImportance: document.querySelector("#todoInputImportance"),
+        todoInputDescription: document.querySelector("#todoInputDescription"),
+        todoInputTitle: document.querySelector("#todoInputTitle"),
+        addTodoBtn : document.querySelector("#addTodoBtn"),
+        dialogTodo: document.querySelector("#dialogTodo"),
         projectInput: document.querySelector("#projectInput"),
-        dialog: document.querySelector("dialog"),
+        dialogProj: document.querySelector("#dialogProj"),
+        closeTodoBtn: document.querySelector("#closeTodoBtn"),
+        confirmTodoBtn: document.querySelector("#confirmTodoBtn"),
         closeBtn: document.querySelector("#closeBtn"),
         confirmBtn: document.querySelector("#confirmBtn"),
         projectList: document.querySelector(".projectList"),
@@ -75,19 +90,36 @@ function UIcontroller(){
     const accessDom = createReferences();
     (function(){
     accessDom.addProjBtn.addEventListener("click",()=>{
-        accessDom.dialog.showModal();
+        accessDom.dialogProj.showModal();
        
+    })
+    accessDom.addTodoBtn.addEventListener("click",()=>{
+        accessDom.dialogTodo.showModal();
+       
+    })
+    accessDom.confirmTodoBtn.addEventListener("click",(e)=>{
+        e.preventDefault();
+        accessDom.dialogTodo.close();
+        checkCurrentProject(projectLibrary).storage.push(new todo(accessDom.todoInputTitle.value, accessDom.todoInputDescription.value,accessDom.todoInputDueDate.value,accessDom.todoInputImportance.value));
+       // should push todo into selected project
+        console.log(projectLibrary)
+        
+    })
+    accessDom.closeTodoBtn.addEventListener("click",(e)=>{
+        e.preventDefault();
+        accessDom.dialogTodo.close()
+        
     })
     accessDom.confirmBtn.addEventListener("click",(e)=>{
         e.preventDefault();
-        accessDom.dialog.close();
+        accessDom.dialogProj.close();
         projectLibrary.push(new Project(accessDom.projectInput.value));
         console.log(projectLibrary)
         clearInput()
     })
     accessDom.closeBtn.addEventListener("click",(e)=>{
         e.preventDefault();
-        accessDom.dialog.close()
+        accessDom.dialogProj.close()
         clearInput()
     })
     accessDom.todayBtn.addEventListener("click",()=>{
@@ -100,8 +132,12 @@ function UIcontroller(){
     showProject(todayProj);
 
 }
-const todayProj = new Project();
+const todayProj = new Project('today');
+todayProj.current = true;
+projectLibrary.push(todayProj);
+/*
 const newTodo = new todo("Laundry","take everything from wardrobe","7/27/2025","true")
 todayProj.storeTodo(newTodo);
 console.log(todayProj.storage);
+*/
 UIcontroller();
