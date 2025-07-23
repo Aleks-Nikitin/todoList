@@ -233,6 +233,8 @@ function UIcontroller(){
         e.preventDefault();
         accessDom.dialogProj.close()
         clearInput()
+        clearProjList();
+        showProjectsList(projectLibrary);
     })
     accessDom.todayBtn.addEventListener("click",()=>{
         clear()
@@ -241,7 +243,7 @@ function UIcontroller(){
    
 
 })()
-
+    return {showProjectsList};
 }
 
 const todayProjectName = "today";
@@ -261,10 +263,13 @@ const newTod2o = new todo("Laundry","take everything from wardrobe","7/27/2025",
 todayProj.storeTodo(newTodo);
 todayProj.storeTodo(newTod2o);*/
 
-UIcontroller();
+const controller =UIcontroller();
 
 window.onbeforeunload = function () {
-    localStorage.setItem('projectLibraryLocal',JSON.stringify(projectLibrary))
+    
+        localStorage.setItem('projectLibraryLocal',JSON.stringify(projectLibrary))
+    
+    
 };
 
 window.addEventListener("load", (event) => {
@@ -273,4 +278,5 @@ window.addEventListener("load", (event) => {
     const newItems = isValidLibrary ? JSON.parse(items) : [];
     const filteredNewItems = newItems.filter(item => item.name !== todayProjectName && item.name !== next7aysProjectName);
     projectLibrary = [...projectLibrary, ...filteredNewItems];
+    controller.showProjectsList(projectLibrary);
 });
