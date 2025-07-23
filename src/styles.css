@@ -8,7 +8,7 @@ body{
     height: 100%;
     display: grid;
     border: 10px solid green;
-    grid-template-columns: 1fr 3.2fr;
+    grid-template-columns: 1fr 2.7fr;
     grid-template-rows: 1fr 5fr;
     background-color: var(--main-bg-color);
 }
@@ -20,7 +20,7 @@ body{
 .sidebar{
     border: 1px solid brown;
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 4fr;
 }
 .sidebar>.top{
     display: grid;
@@ -59,6 +59,18 @@ form{
 dialog::backdrop{
     opacity: 0.1;
 }
+.icon:hover {
+  filter: 
+    invert(0.5)
+    sepia(1)
+    hue-rotate(200deg)
+    saturate(4)
+    brightness(1);
+}
+.X{
+    color: red;
+}
+
 h1{
     color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -77,7 +89,7 @@ h2{
     align-items: center;
     font-size: large;
 }
-.top>button , #projectsText{
+.top>button , #projectsText, .projectList>*,button{
     background-color: var(--main-bg-color);
     color: #BDDDFC;
     font-family: 'Courier New', Courier, monospace;
@@ -97,7 +109,7 @@ h2{
     gap: 20px;
     background-color: #6e7e8d ;
 }
-.top>button:hover{
+button:hover{
     font-weight: bolder;
 
 }
