@@ -2,6 +2,7 @@
 import "./reset.css";
 import "./styles.css";
 let projectLibrary = [];
+
 class Project{
 
     constructor(name){
@@ -240,13 +241,15 @@ function UIcontroller(){
    
 
 })()
-    
-
-    
 
 }
-const todayProj = new Project('today');
-const next7days = new Project("next7days");
+
+const todayProjectName = "today";
+const next7aysProjectName = "next7days";
+
+const todayProj = new Project(todayProjectName);
+const next7days = new Project(next7aysProjectName);
+
 todayProj.current = true;
 projectLibrary.push(todayProj);
 projectLibrary.push(next7days);
@@ -259,10 +262,15 @@ todayProj.storeTodo(newTodo);
 todayProj.storeTodo(newTod2o);*/
 
 UIcontroller();
+
 window.onbeforeunload = function () {
     localStorage.setItem('projectLibraryLocal',JSON.stringify(projectLibrary))
 };
+
 window.addEventListener("load", (event) => {
-    
-  projectLibrary = JSON.parse(localStorage.getItem('projectLibraryLocal'))
+    const items = localStorage.getItem('projectLibraryLocal');
+    const isValidLibrary = items != null && items !== "null";
+    const newItems = isValidLibrary ? JSON.parse(items) : [];
+    const filteredNewItems = newItems.filter(item => item.name !== todayProjectName && item.name !== next7aysProjectName);
+    projectLibrary = [...projectLibrary, ...filteredNewItems];
 });
