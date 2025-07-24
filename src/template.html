@@ -42,9 +42,11 @@ style="fill:#FFFFFF;">
                     <label for="todoInputDescription">Description:</label>
                     <input type="text" name="newProject" id="todoInputDescription">
                     <label for="todoInputDueDate">Due Date</label>
-                    <input type="text" name="newProject" id="todoInputDueDate">
-                    <label for="todoInputImportance">Importance:</label>
-                    <input type="text" name="newProject" id="todoInputImportance">
+                    <input type="date" name="newProject" id="todoInputDueDate">
+                    <label class="switch">
+                        <input type="checkbox" id="todoInputImportance">
+                        <span class="slider round"></span>
+                    </label>
                     <div class="dialogBtns">
                         <button id="closeTodoBtn">Close</button>
                         <button id="confirmTodoBtn"> Confirm</button>

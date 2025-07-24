@@ -1,6 +1,7 @@
 
 import "./reset.css";
 import "./styles.css";
+import { format } from "date-fns";
 let projectLibrary = [];
 
 class Project{
@@ -26,6 +27,9 @@ class todo{
     }
 
     
+}
+function dateHandler(){
+    const date = new Date();
 }
 function checkCurrentProject(projLib){
     for(const proj of projLib){
@@ -57,11 +61,6 @@ function UIcontroller(){
              let projectForRemoval = (projectLibrary.find((obj)=> obj.id == e.target.getAttribute('data-id')));
                 const isMatching = (element)=> element == projectForRemoval;
                 let projectForRemovalIndex = projectLibrary.findIndex(isMatching);
-                //console.log(projectLibrary[currentIndex]);
-                /*
-            clear()
-            showProject(checkCurrentProject(projectLibrary))
-            */
            console.log(projectLibrary[projectForRemovalIndex]);
             projectLibrary.splice(projectForRemovalIndex,1,);
             clearProjList();
@@ -116,13 +115,18 @@ function UIcontroller(){
     }
     function showProject(projectItem){
         for(const todoUnit of projectItem.storage){
+            
             let todoBlockUI = document.createElement("div");
             todoBlockUI.classList = "todoBlock";
+            if(todoUnit.importance == true){
+                todoBlockUI.style.cssText="border-left-color:rgb(228, 23, 23)";
+            }else{
+                todoBlockUI.style.cssText="border-left-color: #808080";
+            }
             todoBlockUI.setAttribute("data-id",todoUnit.id);
             let todoTitleUI = document.createElement("p");
             let todoDueDateUI = document.createElement("div");
             let todoDescriptionUI = document.createElement("p");
-            let todoImportanceUI = document.createElement("div");
             let todoDeleteBtn =document.createElement("button");
             todoDeleteBtn.textContent="X";
             let todoEditBtn =document.createElement("button");
@@ -132,11 +136,9 @@ function UIcontroller(){
             todoTitleUI.textContent = todoUnit.title;
             todoDescriptionUI.textContent = todoUnit.description;
             todoDueDateUI.textContent = todoUnit.dueDate;
-            todoImportanceUI.textContent = todoUnit.importance;
             accessDom.content.appendChild(todoBlockUI);
             todoBlockUI.appendChild(todoTitleUI);
             todoBlockUI.appendChild(todoDescriptionUI);
-            todoBlockUI.appendChild(todoImportanceUI);
             todoBlockUI.appendChild(todoDueDateUI);
             todoBlockUI.appendChild(todoEditBtn);
             todoBlockUI.appendChild(todoDeleteBtn);
@@ -167,7 +169,12 @@ function UIcontroller(){
         next7daysBtn: document.querySelector("#next7daysBtn"),
         }
     }
-
+    function checkImportance(inputBtn){
+        if(inputBtn.checked){
+            return true
+        }
+        return false
+    }
     const accessDom = createReferences();
     /*
     (function assignCurrentProject(){
@@ -194,8 +201,9 @@ function UIcontroller(){
     accessDom.confirmTodoBtn.addEventListener("click",(e)=>{
         e.preventDefault();
         accessDom.dialogTodo.close();
+
         if(editing == false){
-        checkCurrentProject(projectLibrary).storage.push(new todo(accessDom.todoInputTitle.value, accessDom.todoInputDescription.value,accessDom.todoInputDueDate.value,accessDom.todoInputImportance.value));
+        checkCurrentProject(projectLibrary).storage.push(new todo(accessDom.todoInputTitle.value, accessDom.todoInputDescription.value,format(accessDom.todoInputDueDate.value,'MMM/do/yyyy'),checkImportance(accessDom.todoInputImportance)));
        // should push todo into selected project
         clear()
         showProject(checkCurrentProject(projectLibrary))
@@ -256,17 +264,11 @@ todayProj.current = true;
 projectLibrary.push(todayProj);
 projectLibrary.push(next7days);
 
-//example of creating todo's without UI
-/*
-const newTodo = new todo("Laundry","take everything from wardrobe","7/27/2025","true")
-const newTod2o = new todo("Laundry","take everything from wardrobe","7/27/2025","true");
-todayProj.storeTodo(newTodo);
-todayProj.storeTodo(newTod2o);*/
 
 const controller =UIcontroller();
 
 window.onbeforeunload = function () {
-    
+
         localStorage.setItem('projectLibraryLocal',JSON.stringify(projectLibrary))
     
     
