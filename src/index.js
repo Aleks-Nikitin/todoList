@@ -215,7 +215,7 @@ function UIcontroller(){
             checkCurrentProject(projectLibrary).storage[currentTodoIndex].title = accessDom.todoInputTitle.value;
             checkCurrentProject(projectLibrary).storage[currentTodoIndex].description = accessDom.todoInputDescription.value;
             checkCurrentProject(projectLibrary).storage[currentTodoIndex].dueDate = accessDom.todoInputDueDate.value;
-            checkCurrentProject(projectLibrary).storage[currentTodoIndex].importance = accessDom.todoInputImportance.value;
+            checkCurrentProject(projectLibrary).storage[currentTodoIndex].importance = checkImportance(accessDom.todoInputImportance);
             clear()
             showProject(checkCurrentProject(projectLibrary))
             hiddenInput.value="";
