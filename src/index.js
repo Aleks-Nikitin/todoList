@@ -28,9 +28,7 @@ class todo{
 
     
 }
-function dateHandler(){
-    const date = new Date();
-}
+
 function checkCurrentProject(projLib){
     for(const proj of projLib){
         if(proj.current) return proj
@@ -39,6 +37,7 @@ function checkCurrentProject(projLib){
     
 function UIcontroller(){
     let editing = false;
+    
     function showProjectsList(projLib){
         for(let i =2; i< projLib.length; ++i){
             let pro=document.createElement("button");
@@ -108,6 +107,12 @@ function UIcontroller(){
     function editTodo(btn,currentBlock){
         btn.addEventListener("click",()=>{
             accessDom.dialogTodo.showModal();
+            let currentTodo = (checkCurrentProject(projectLibrary).storage.find((obj)=> obj.id == currentBlock.getAttribute("data-id")));
+            const isMatch = (element)=> element == currentTodo;
+            let currentTodoIndex = checkCurrentProject(projectLibrary).storage.findIndex(isMatch);
+            accessDom.todoInputTitle.value = checkCurrentProject(projectLibrary).storage[currentTodoIndex].title
+            accessDom.todoInputDueDate.value = checkCurrentProject(projectLibrary).storage[currentTodoIndex].dueDate
+            accessDom.todoInputDescription.value = checkCurrentProject(projectLibrary).storage[currentTodoIndex].description
             accessDom.hiddenInput.value = currentBlock.getAttribute("data-id");
             editing=true;
             
@@ -126,10 +131,14 @@ function UIcontroller(){
             todoBlockUI.setAttribute("data-id",todoUnit.id);
             let todoTitleUI = document.createElement("p");
             let todoDueDateUI = document.createElement("div");
+            todoDueDateUI.classList.add("date")
             let todoDescriptionUI = document.createElement("p");
+            todoDescriptionUI.classList.add("description");
             let todoDeleteBtn =document.createElement("button");
             todoDeleteBtn.textContent="X";
+            todoDeleteBtn.classList.add("deleteTodoBtn");
             let todoEditBtn =document.createElement("button");
+            todoEditBtn.classList.add("editTodoBtn");
             todoEditBtn.textContent="edit";
             editTodo(todoEditBtn, todoBlockUI);
             deleteTodo(todoDeleteBtn,todoBlockUI);
@@ -176,19 +185,9 @@ function UIcontroller(){
         return false
     }
     const accessDom = createReferences();
-    /*
-    (function assignCurrentProject(){
-        
-        arrayList.forEach(element => {
-            element.addEventListener("click",()=>{
-                console.log(element.textContent);
-                console.log(accessDom.projectsNodeList)
-            })
-        });
-    })();
-*/
-
+    
     (function(){
+  
     accessDom.addProjBtn.addEventListener("click",()=>{
         accessDom.dialogProj.showModal();
        
@@ -203,7 +202,7 @@ function UIcontroller(){
         accessDom.dialogTodo.close();
 
         if(editing == false){
-        checkCurrentProject(projectLibrary).storage.push(new todo(accessDom.todoInputTitle.value, accessDom.todoInputDescription.value,format(accessDom.todoInputDueDate.value,'MMM/do/yyyy'),checkImportance(accessDom.todoInputImportance)));
+        checkCurrentProject(projectLibrary).storage.push(new todo(accessDom.todoInputTitle.value, accessDom.todoInputDescription.value,accessDom.todoInputDueDate.value,checkImportance(accessDom.todoInputImportance)));
        // should push todo into selected project
         clear()
         showProject(checkCurrentProject(projectLibrary))

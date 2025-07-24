@@ -33,7 +33,16 @@ form{
     border: none;
     font-size: large;
     color: white;
+    margin-top: 10px;
     background-color: #88BDF2;
+}
+.date{
+    color: black;
+    font-weight: bold;
+}
+.description{
+    color: rgb(198, 191, 191);
+    font-size: large;
 }
 .dialogBtns>button:hover{
     font-weight: bold;
@@ -51,6 +60,14 @@ form{
  left: 5%;
  border: none;
  background-color:  #88BDF2;
+}
+.editTodoBtn{
+    background-color: #38648d;
+    color: #0f1112;
+}
+.deleteTodoBtn{
+    color: #de3320;
+    background-color: #38648d;
 }
 dialog::backdrop{
     opacity: 0.1;
@@ -100,6 +117,8 @@ h2{
     margin-top: 20px;
     width: 80%;
     display: flex;
+
+    align-items: center;
     border-left: 15px solid #88BDF2;
     outline: 1px solid black;
     color: white;
@@ -190,4 +209,8 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+p{
+    font-size: 25px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
